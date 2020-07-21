@@ -12,8 +12,6 @@ import proto.grpc_chat_pb2 as chat
 import proto.grpc_chat_pb2_grpc as rpc
 
 import config as cfg
-address = 'localhost'
-port = 11912
 
 # -----------------------------------------------------------------------------
 
@@ -24,7 +22,7 @@ class Client:
         self.window = window
         self.username = u
         # create a gRPC channel + stub
-        channel = grpc.insecure_channel(address + ':' + str(port))
+        channel = grpc.insecure_channel(cfg.ADDRESS + ':' + str(cfg.PORT))
         self.conn = rpc.ChatServerStub(channel)
         # create new listening thread for when new message streams come in
         threading.Thread(target=self.__listen_for_messages, daemon=True).start()

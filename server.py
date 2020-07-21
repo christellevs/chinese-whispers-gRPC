@@ -60,8 +60,8 @@ if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # create a gRPC server
     rpc.add_ChatServerServicer_to_server(ChatServer(), server)  # register the server to gRPC
     # gRPC basically manages all the threading and server responding logic, which is perfect!
-    print('Starting server. Listening...')
-    server.add_insecure_port('[::]:' + str(port))
+    print(f'Starting server. Listening on port: {cfg.PORT}')
+    server.add_insecure_port('[::]:' + str(cfg.PORT))
     server.start()
     # Server starts in background (in another thread) so keep waiting
     # if we don't wait here the main thread will end, which will end all the child threads, and thus the threads

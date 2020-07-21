@@ -43,7 +43,7 @@ class Client:
         This method is called when user enters something into the textbox
         """
         message = self.entry_message.get()  # retrieve message from the UI
-        if message is not '':
+        if message != '':
             n = chat.Note()  # create protobug message (called Note)
             n.name = self.username  # set the username
             n.message = message  # set the actual message of the note

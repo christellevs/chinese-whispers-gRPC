@@ -67,7 +67,6 @@ if __name__ == '__main__':
     # if we don't wait here the main thread will end, which will end all the child threads, and thus the threads
     # from the server won't continue to work and stop the server
     try:  
-        # while True:
         time.sleep(64 * 64 * 100)
     except KeyboardInterrupt:
         print('Stopping server...')

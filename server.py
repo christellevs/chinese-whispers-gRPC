@@ -1,6 +1,7 @@
-from concurrent import futures
-
 import grpc
+
+from concurrent import futures
+import os
 import time
 
 import sys
@@ -54,10 +55,9 @@ class ChatServer(rpc.ChatServerServicer):  # inheriting here from the protobuf r
 # -----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    port = 11912  # a random port for the server to run on
     # the workers is like the amount of threads that can be opened at the same time, when there are 10 clients connected
     # then no more clients able to connect to the server.
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # create a gRPC server
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=cfg.MAX_WORKERS))  # create a gRPC server
     rpc.add_ChatServerServicer_to_server(ChatServer(), server)  # register the server to gRPC
     # gRPC basically manages all the threading and server responding logic, which is perfect!
     print(f'Starting server. Listening on port: {cfg.PORT}')
@@ -67,10 +67,16 @@ if __name__ == '__main__':
     # if we don't wait here the main thread will end, which will end all the child threads, and thus the threads
     # from the server won't continue to work and stop the server
     try:  
-        while True:
-            time.sleep(64 * 64 * 100)
+        # while True:
+        time.sleep(64 * 64 * 100)
     except KeyboardInterrupt:
         print('Stopping server...')
-        server.stop(0)
+        try:
+            server.stop(0)
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
+            
+        
          
 # -----------------------------------------------------------------------------

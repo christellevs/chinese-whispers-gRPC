@@ -25,18 +25,18 @@ class Client:
         channel = grpc.insecure_channel(cfg.ADDRESS + ':' + str(cfg.PORT))
         self.conn = rpc.ChatServerStub(channel)
         # create new listening thread for when new message streams come in
-        threading.Thread(target=self.__listen_for_messages, daemon=True).start()
-        self.__setup_ui()
+        threading.Thread(target=self._listen_for_messages, daemon=True).start()
+        self._setup_ui()
         self.window.mainloop()
 
-    def __listen_for_messages(self):
+    def _listen_for_messages(self):
         """
         This method will be ran in a separate thread as the main/ui thread, because the for-in call is blocking
         when waiting for new messages
         """
-        for note in self.conn.ChatStream(chat.Empty()):  # this line will wait for new messages from the server!
-            print("R[{}] {}".format(note.name, note.message))  # debugging statement
-            self.chat_list.insert(END, "[{}] {}\n".format(note.name, note.message))  # add the message to the UI
+        for chat_message in self.conn.ChatStream(chat.Empty()):  # this line will wait for new messages from the server!
+            print("R[{}] {}".format(chat_message.name, chat_message.message))  # debugging statement
+            self.chat_list.insert(END, "[{}] {}\n".format(chat_message.name, chat_message.message))  # add the message to the UI
 
     def send_message(self, event):
         """
@@ -50,7 +50,7 @@ class Client:
             print("S[{}] {}".format(n.name, n.message))  # debugging statement
             self.conn.SendNote(n)  # send the Note to the server
 
-    def __setup_ui(self):
+    def _setup_ui(self):
         self.chat_list = Text()
         self.chat_list.pack(side=TOP)
         self.lbl_username = Label(self.window, text=self.username)

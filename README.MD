@@ -1,5 +1,14 @@
 # Chinese Whispers gRPC Chat Prototype Technical Test
 
+A chinese whispers chat prototype where 2 clients are able to view and send messages to each other.
+
+Before the message is sent to the other client, it is slightly modified:
+
+1. A random word is swapped for one of its random synonyms (if that synonym exist)
+1. A chosen number of random letters are replaced with the same chosen number of random letters in the message.
+1. A chosen number of random letters are dropped from the message.
+
+----------------------------------------------------------------
 ## Running program
 
 In a terminal run:

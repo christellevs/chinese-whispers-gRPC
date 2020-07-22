@@ -4,7 +4,7 @@ import random
 import sys
 sys.path.insert(0, '')
 
-# local imports
+# Local imports
 from whisper import Whisper
 import config as cfg
 
@@ -14,7 +14,7 @@ seed = random.seed(273)
 
 w = Whisper()
 message1 = "Hello there Anakin"
-message2 = "I have the higher ground"
+message2 = "I have the higher ground."
 message3 = "Hi"
 message4 = "The Guinea fowl flies through the air with all the grace of a turtle."
 

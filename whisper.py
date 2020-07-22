@@ -1,8 +1,12 @@
 import random
+import string
+
+from itertools import chain
+from nltk.corpus import wordnet
 from string import ascii_letters
 from typing import List
 
-# local imports
+# Local imports
 import config as cfg
 
 # -----------------------------------------------------------------------------
@@ -13,15 +17,28 @@ class Whisper:
         """
         Completes all the modifications to a message.
         """
-        # checks if message is less than desired number of letters to swap
+        # Checks if message is less than desired number of letters to swap/drop.
         if len(message) <= cfg.SWAP_LETTERS: 
-            return message
+            pass
         else:
+            message = self._replace_word_synonym(message)
             message = self._replace_letter(message)
             message = self._drop_letter(message)
-            return message
+        return message
         
+    def _replace_word_synonym(self, message:str) -> str:
+        no_punc = ''.join((char for char in message if char not in string.punctuation))
+        rand_word = random.choice(no_punc.split())
         
+        synonyms = wordnet.synsets(rand_word)
+        lemmas = set(chain.from_iterable([word.lemma_names() for word in synonyms]))
+        if len(lemmas) >= 1:
+            rand_synonym = random.choice(list(lemmas))
+            return message.replace(str(rand_word), str(rand_synonym))
+        else:
+            return message    
+        
+    
     def _replace_letter(self, message:str) -> str:
         """
         Replaces n random letters (non-whitespace) in the message with n random letters.
@@ -47,14 +64,14 @@ class Whisper:
 
     def _get_non_whitespace_idxs(self, message:str) -> List[int]:
         """
-        Returns the indexes of non-whitespace characteres in a message
+        Returns the indexes of non-whitespace characteres in a message.
         """
         return [i for i, v in enumerate(message) if not v.isspace()]
 
 
     def _get_random_idx_sample(self, list_of_items):
         """
-        Returns a random sample of a given list of letters
+        Returns a random sample of a given list of letters.
         """
         return iter(random.sample(list_of_items, cfg.SWAP_LETTERS))
 

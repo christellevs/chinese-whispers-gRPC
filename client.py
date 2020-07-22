@@ -36,7 +36,7 @@ class Client:
         when waiting for new messages
         """
         for chat_message in self.conn.ChatStream(chat.Empty()):  # this line will wait for new messages from the server!
-            self.chat_list.insert(END, "[{}] {}\n".format(chat_message.name, chat_message.message))  # add the message to the UI
+            self.chat_list.insert(END, f'[{chat_message.name}] {chat_message.message}\n')  # add the message to the UI
 
     def send_message(self, event):
         """

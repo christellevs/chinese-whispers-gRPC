@@ -12,7 +12,9 @@ import proto.grpc_chat_pb2 as chat
 import proto.grpc_chat_pb2_grpc as rpc
 
 import config as cfg
+from whisper import Whisper
 
+w = Whisper()
 # -----------------------------------------------------------------------------
 
 class ChatServer(rpc.ChatServerServicer):  # inheriting here from the protobuf rpc file which is generated
@@ -46,11 +48,13 @@ class ChatServer(rpc.ChatServerServicer):  # inheriting here from the protobuf r
         :param context:
         :return:
         """
+        request.message = w.modify_message(request.message)
         # this is only for the server console
         print(f'[{request.name}] {request.message}')
         # Add it to the chat history
         self.chats.append(request)
         return chat.Empty()  # something needs to be returned required by protobuf language, we just return empty msg
+
 
 # -----------------------------------------------------------------------------
 

@@ -12,9 +12,11 @@ import proto.grpc_chat_pb2 as chat
 import proto.grpc_chat_pb2_grpc as rpc
 
 import config as cfg
-import whisper as w
+from whisper import Whisper
 
 # -----------------------------------------------------------------------------
+
+w = Whisper()
 
 class Client:
 
@@ -47,8 +49,9 @@ class Client:
         if message != '':
             n = chat.Note()                        # create protobug chat message 
             n.name = self.username                 # set the username
-            n.message = w.modify_message(message)  # set and modifies chat message
+            n.message = message  # set and modifies chat message
             self.conn.SendNote(n)                  # sends chat message to server
+            self._clear_text()
 
     def _setup_ui(self):
         """
@@ -62,6 +65,9 @@ class Client:
         self.entry_message.bind('<Return>', self.send_message)
         self.entry_message.focus()
         self.entry_message.pack(side=BOTTOM)
+        
+    def _clear_text(self):
+        self.entry_message.delete(0, 'end')
 
 # -----------------------------------------------------------------------------
 

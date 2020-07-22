@@ -47,7 +47,7 @@ class ChatServer(rpc.ChatServerServicer):  # inheriting here from the protobuf r
         :return:
         """
         # this is only for the server console
-        print("[{}] {}".format(request.name, request.message))
+        print(f'[{request.name}] {request.message}')
         # Add it to the chat history
         self.chats.append(request)
         return chat.Empty()  # something needs to be returned required by protobuf language, we just return empty msg

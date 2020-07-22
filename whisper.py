@@ -1,26 +1,36 @@
-import re
+import random
+from string import ascii_letters
+
+# local imports
+import config as cfg
 
 # -----------------------------------------------------------------------------
 
-def modify_message(self, message:str) -> str:
+def modify_message(message:str) -> str:
     """
     Completes all the modifications to a message.
     """
-    if len(message) < 2:
+    # checks if message is less than desired number of letters to swap
+    if len(message) < cfg.SWAP_LETTERS: 
         pass
     else:
         message = replace_letter(message)
     return message
     
     
-def replace_letter(self, message:str) -> str:
+def replace_letter(message:str) -> str:
     """
-    Replaces a random letter in the message with another random letter.
+    Replaces n random letters in the message with n random letters.
     """
-    return message.replace(message[0], 'a')
+    indexes = [i for i,_ in enumerate(message) if not message.isspace()]
+    letters =  iter(random.sample(ascii_letters, cfg.SWAP_LETTERS))
+    lst = list(message)
+    for idx in random.sample(indexes, cfg.SWAP_LETTERS):
+        lst[idx] = next(letters)
+    return ''.join(lst)
 
 
-def drop_letter(self, message:str) -> str:
+def drop_letter(message:str) -> str:
     """
     Drops a random letter in the message
     """

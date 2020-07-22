@@ -33,7 +33,7 @@ class ChatServer(rpc.ChatServerServicer): # passing in the generate rpc file
                 lastindex += 1
                 yield n
 
-    def SendNote(self, request: chat.Note, context):
+    def SendChatMessage(self, request: chat.ChatMessage, context):
         """
         Method called when Client sends ChatMessage to server.
         """

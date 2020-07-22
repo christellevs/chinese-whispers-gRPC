@@ -46,10 +46,10 @@ class Client:
         message = self.entry_message.get()  
         if message != '':
             # create protobug chat message 
-            n = chat.Note()          
+            n = chat.ChatMessage()          
             n.name = self.username      
             n.message = message
-            self.conn.SendNote(n)
+            self.conn.SendChatMessage(n)
             self._clear_text()
 
     def _setup_gui(self):

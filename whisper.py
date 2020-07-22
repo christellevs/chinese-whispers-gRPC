@@ -27,7 +27,10 @@ class Whisper:
         return message
         
     def _replace_word_synonym(self, message:str) -> str:
-        no_punc = ''.join((char for char in message if char not in string.punctuation))
+        """
+        Replaces a random word in the message with one of its random synonyms.
+        """
+        no_punc = self._remove_punctuation(message)
         rand_word = random.choice(no_punc.split())
         
         synonyms = wordnet.synsets(rand_word)
@@ -74,5 +77,11 @@ class Whisper:
         Returns a random sample of a given list of letters.
         """
         return iter(random.sample(list_of_items, cfg.SWAP_LETTERS))
+    
+    def _remove_punctuation(self, message:str) -> str:
+        """
+        Returns a message with no punctuation.
+        """
+        return ''.join((char for char in message if char not in string.punctuation))
 
 # -----------------------------------------------------------------------------

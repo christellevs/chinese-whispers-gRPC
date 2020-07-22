@@ -16,7 +16,7 @@ w = Whisper()
 message1 = "Hello there Anakin"
 message2 = "I have the higher ground."
 message3 = "Hi"
-message4 = "The Guinea fowl flies through the air with all the grace of a turtle."
+message4 = "The Guinea fowl flies through the air, with all the grace of a turtle."
 
 # -----------------------------------------------------------------------------
 
@@ -98,10 +98,10 @@ def test_get_non_whitespace_idxs():
     result3 = w._get_non_whitespace_idxs(message3)
     result4 = w._get_non_whitespace_idxs(message4)
     
-    assert len(result1) == 16
-    assert len(result2) == 20
-    assert len(result3) == 2
-    assert len(result4) == 56
+    assert len(result1) == len(message1) - 2
+    assert len(result2) == len(message2) - 4
+    assert len(result3) == len(message3)
+    assert len(result4) == len(message4) - 13
     
     
 def test_get_random_idx_sample():
@@ -130,5 +130,20 @@ def test_get_random_idx_sample():
     assert len(list(msg_result2)) == cfg.SWAP_LETTERS
     assert len(list(msg_result3)) == cfg.SWAP_LETTERS
     assert len(list(msg_result4)) == cfg.SWAP_LETTERS
+    
+def test_remove_punctuation():
+    """
+    Asserts to check if punctuation is removed from the message.
+    """
+    result1 = w._remove_punctuation(message1)
+    result2 = w._remove_punctuation(message2)
+    result3 = w._remove_punctuation(message3)
+    result4 = w._remove_punctuation(message4)
+    
+    assert len(result1) == len(message1)
+    assert len(result2) == len(message2) - 1
+    assert len(result3) == len(message3)
+    assert len(result4) == len(message4) - 2
+    
     
 # -----------------------------------------------------------------------------

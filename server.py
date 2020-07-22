@@ -51,8 +51,6 @@ if __name__ == '__main__':
     server.add_insecure_port('[::]:' + str(cfg.PORT))
     server.start()
     # Server starts in background (in another thread)
-    # wait here otherwise all threads will end
-    # otherwise server can be stopped by keyboard interrupt
     try:  
         time.sleep(60 * 60 * 24)
     except KeyboardInterrupt:
